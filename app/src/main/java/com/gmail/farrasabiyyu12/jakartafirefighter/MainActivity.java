@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recy_petugas;
     ApiInterface mApiInterface = ApiClient.getInstance();
     MyAdapter adapter;
+    String token = "5O6W5d5iujdM6evlmtyo5F0r64XrG9h7iCqmYvVjqkEIJn2N4ZcM8cYKOKGjsckS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        Call<ResponsePetugas> petugasCall = mApiInterface.getPetugas("5O6W5d5iujdM6evlmtyo5F0r64XrG9h7iCqmYvVjqkEIJn2N4ZcM8cYKOKGjsckS");
+        Call<ResponsePetugas> petugasCall = mApiInterface.getPetugas(token);
         petugasCall.enqueue(new Callback<ResponsePetugas>() {
             @Override
             public void onResponse(Call<ResponsePetugas> call, Response<ResponsePetugas> response) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     recy_petugas.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     List<DataItem> petugasList = response.body().getData();
                     Log.d("Retrofit Get", "Jumlah Pegawai Pemadam Kebakaran: " + String.valueOf(petugasList.size()));
-                    adapter = new MyAdapter(petugasList);
+                    adapter = new MyAdapter(petugasList, MainActivity.this);
                     recy_petugas.setAdapter(adapter);
                 }
             }
